@@ -64,15 +64,18 @@ CSS3
 JavaScript (Vanilla)
 
 Estructura del Proyecto
-proyecto-web-escom/
+C:\dev\redes3-25-2-proyecto\
 │
+├── .gitignore             # Archivos y carpetas a ignorar por Git
+├── node_modules/          # Dependencias de Node.js
+├── package-lock.json      # Bloqueo de versiones de dependencias
+├── package.json           # Define el proyecto y sus dependencias
+├── preparar_servidor.sh   # Script para instalar dependencias en la VM
 ├── public/                # Contenido que verá el cliente (frontend)
 │   ├── index.html         # La página principal
 │   ├── style.css          # Estilos para la página
 │   └── app.js             # Lógica del cliente (JavaScript)
-│
-├── package.json           # Define el proyecto y sus dependencias
-├── preparar_servidor.sh   # Script para instalar dependencias en la VM
+├── Readme.md              # Este archivo de documentación
 └── server.js              # El corazón de tu aplicación (backend)
 
 Guía de Instalación y Ejecución
@@ -81,11 +84,14 @@ Sigue estos pasos para levantar el proyecto desde cero en la máquina virtual de
 1. Preparación de la Máquina Virtual (VM)
 Este script instala todas las herramientas y servicios necesarios en una VM Debian/Ubuntu limpia.
 
+# Navegar a la carpeta raíz del proyecto en la VM
+cd /ruta/a/redes3-25-2-proyecto/
+
 # Dar permisos de ejecución al script
 chmod +x preparar_servidor.sh
 
 # Ejecutar el script como superusuario o con sudo
-./preparar_servidor.sh
+sudo ./preparar_servidor.sh
 
 2. Configuración de Servicios de Red
 Antes de iniciar el dashboard, es crucial configurar los servicios que se instalaron en el paso anterior. Cada servicio tiene sus propios archivos de configuración que deben ser modificados según la topología y el plan de direccionamiento del proyecto.
@@ -101,14 +107,17 @@ rsyslog: Configurar reglas para que los logs de los dispositivos de red se centr
 3. Instalación de Dependencias del Dashboard
 Este comando lee el archivo package.json y descarga las librerías de Node.js necesarias (Express y basic-ftp).
 
-# Navegar a la carpeta raíz del proyecto
-cd proyecto-web-escom
+# Asegúrate de estar en la carpeta raíz del proyecto
+cd C:\dev\redes3-25-2-proyecto\
 
 # Instalar dependencias
 npm install
 
 4. Ejecución del Proyecto
 Una vez que los servicios están configurados y las dependencias instaladas, inicia el servidor web.
+
+# Asegúrate de estar en la carpeta raíz del proyecto
+cd C:\dev\redes3-25-2-proyecto\
 
 # Iniciar el servidor Node.js
 npm start
@@ -117,7 +126,7 @@ El servidor se ejecutará y mostrará un mensaje en la consola. Para acceder al 
 
 Abre un navegador web en la máquina virtual cliente.
 
-Navega usando el nombre de dominio configurado en BIND (ej. http://www.equipo12.com).
+Navega usando el nombre de dominio configurado en BIND (ej. http://www.equipo12.com) o directamente la dirección IP del servidor (ej. http://<IP_del_Servidor>).
 
 Funcionalidades del Dashboard
 El dashboard web ofrece las siguientes funcionalidades para la demostración:
