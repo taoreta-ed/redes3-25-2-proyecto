@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Final Redes - ESCOM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logos">
+            </div>
+        <h1>Proyecto Final: Administración de Servicios en Red</h1>
+        <p>Hernández Castro Eduardo y Parra Mancilla José Ramón - 7CV1</p>
+    </header>
+
+    <main>
+        <section id="ftp-section">
+            <h2>Servicio FTP</h2>
+            <button id="ftp-btn">Actualizar Lista de Archivos</button>
+            <ul id="ftp-file-list"></ul>
+        </section>
+
+        <section id="syslog-section">
+            <h2>Visor de Syslog</h2>
+            <button id="syslog-btn">Actualizar Logs</button>
+            <pre id="syslog-content">Aquí se mostrarán los logs de la red...</pre>
+        </section>
+
+        <section id="network-test-section">
+            <h2>Pruebas de Red</h2>
+            <div class="ping-control">
+                <input type="text" id="ping-host" placeholder="ej. r1.udi.equipo12.com">
+                <button id="ping-btn">Ejecutar Ping</button>
+            </div>
+            <pre id="ping-output"></pre>
+        </section>
+    </main>
+
+    <footer>
+        <p>Instituto Politécnico Nacional - ESCOM - Junio 2025</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

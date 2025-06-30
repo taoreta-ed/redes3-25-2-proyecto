@@ -1,0 +1,15 @@
+{
+  "name": "proyecto-redes-escom",
+  "version": "1.0.0",
+  "description": "Dashboard para demostrar servicios de red del proyecto final.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Eduardo Hernández y José Ramón Parra",
+  "license": "ISC",
+  "dependencies": {
+    "basic-ftp": "^5.0.5",
+    "express": "^4.19.2"
+  }
+}
