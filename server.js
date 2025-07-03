@@ -6,7 +6,7 @@ const { exec } = require('child_process'); // Para ejecutar comandos del sistema
 
 // Inicializar la aplicación Express
 const app = express();
-const PORT = process.env.PORT || 8000; // Define el puerto del servidor, usa 8000 por defecto
+const PORT = process.env.PORT || 80; // Define el puerto del servidor, usa 8000 por defecto
 
 // Middleware para servir archivos estáticos desde la carpeta 'public'
 // Esto permite que el navegador cargue index.html, style.css y app.js
