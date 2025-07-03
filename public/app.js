@@ -1,139 +1,260 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Referencias a los elementos del DOM para los botones y áreas de visualización
-    const ftpBtn = document.getElementById('ftp-btn');
-    const ftpList = document.getElementById('ftp-file-list');
-    const syslogBtn = document.getElementById('syslog-btn');
-    const syslogContent = document.getElementById('syslog-content');
-    const pingBtn = document.getElementById('ping-btn');
-    const pingHostInput = document.getElementById('ping-host'); // Asumo que este es el input para el objetivo del ping
-    const pingOutput = document.getElementById('ping-output');
-
-    // --- Elementos para FTP (Necesitarás añadirlos a tu index.html) ---
-    // He añadido placeholders. Deberías crear estos inputs en tu HTML.
+    // Referencias a los elementos del DOM
+    // FTP
+    const ftpListBtn = document.getElementById('ftp-list-btn');
+    const ftpDownloadBtn = document.getElementById('ftp-download-btn');
+    const ftpUploadBtn = document.getElementById('ftp-upload-btn');
     const ftpHostInput = document.getElementById('ftp-host-input');
     const ftpUserInput = document.getElementById('ftp-user-input');
     const ftpPasswordInput = document.getElementById('ftp-password-input');
+    const ftpDownloadFilenameInput = document.getElementById('ftp-download-filename');
+    const ftpUploadFileInput = document.getElementById('ftp-upload-file');
+    const ftpList = document.getElementById('ftp-file-list');
+
+    // Syslog
+    const syslogCreateBtn = document.getElementById('syslog-create-btn');
+    const syslogViewBtn = document.getElementById('syslog-view-btn');
+    const syslogMessageInput = document.getElementById('syslog-message-input');
+    const syslogContent = document.getElementById('syslog-content');
+
+    // Ping
+    const pingBtn = document.getElementById('ping-btn');
+    const pingHostInput = document.getElementById('ping-host');
+    const pingOutput = document.getElementById('ping-output');
+
+    // Función auxiliar para obtener credenciales FTP
+    function getFtpCredentials() {
+        const host = ftpHostInput.value;
+        const user = ftpUserInput.value;
+        const password = ftpPasswordInput.value;
+        if (!host || !user || !password) {
+            alert('Por favor, ingresa el Host, Usuario y Contraseña de FTP.');
+            return null;
+        }
+        return { host, user, password };
+    }
 
     // ====================================================================
-    // Funcionalidad para Cargar lista de archivos FTP
+    // Funcionalidad para FTP
     // ====================================================================
-    ftpBtn.addEventListener('click', async () => {
-        // Obtener las credenciales del usuario desde los campos de entrada
-        // Si no tienes estos inputs en tu HTML, puedes hardcodear los valores para pruebas:
-        const host = ftpHostInput ? ftpHostInput.value : '127.0.0.1'; // IP del servidor FTP (tu VM server)
-        const user = ftpUserInput ? ftpUserInput.value : 'your_ftp_user'; // Usuario FTP configurado en vsftpd
-        const password = ftpPasswordInput ? ftpPasswordInput.value : 'your_ftp_password'; // Contraseña del usuario FTP
 
-        // Limpiar la lista y mostrar un mensaje de carga
+    // Ver Archivos FTP
+    ftpListBtn.addEventListener('click', async () => {
+        const credentials = getFtpCredentials();
+        if (!credentials) return;
+
         ftpList.innerHTML = '<li>Cargando archivos FTP...</li>';
 
         try {
-            // Realizar una solicitud POST al endpoint /api/ftp/list
-            // Se envían host, user y password en el cuerpo de la solicitud JSON
             const response = await fetch('/api/ftp/list', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ host, user, password })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(credentials)
             });
 
-            // Verificar si la respuesta fue exitosa (código 2xx)
             if (!response.ok) {
-                // Si hay un error, intentar parsear el JSON de error del servidor
                 const errorData = await response.json();
                 throw new Error(errorData.error || 'Error desconocido al conectar al servidor FTP.');
             }
 
-            // Parsear la respuesta JSON
             const result = await response.json();
-            const files = result.files; // El servidor devuelve un objeto con la propiedad 'files'
+            const files = result.files;
 
-            // Limpiar la lista actual
             ftpList.innerHTML = '';
             if (files.length === 0) {
                 ftpList.innerHTML = '<li>No hay archivos en el directorio FTP.</li>';
             } else {
-                // Iterar sobre los archivos y añadirlos a la lista
                 files.forEach(file => {
                     const li = document.createElement('li');
-                    li.textContent = file; // El servidor ahora solo devuelve el nombre
+                    li.textContent = file;
+                    // Opcional: añadir un botón de descarga junto a cada archivo si se desea
+                    // const downloadBtn = document.createElement('button');
+                    // downloadBtn.textContent = 'Descargar';
+                    // downloadBtn.onclick = () => { /* lógica de descarga para este archivo */ };
+                    // li.appendChild(downloadBtn);
                     ftpList.appendChild(li);
                 });
             }
         } catch (error) {
-            // Mostrar cualquier error que ocurra durante la operación FTP
             ftpList.innerHTML = `<li>Error: ${error.message}</li>`;
-            console.error('Error en la operación FTP (frontend):', error);
+            console.error('Error en la operación FTP (listar):', error);
         }
     });
 
-    // ====================================================================
-    // Funcionalidad para Cargar logs de Syslog
-    // ====================================================================
-    syslogBtn.addEventListener('click', async () => {
-        syslogContent.textContent = 'Cargando logs de Syslog...'; // Mensaje de carga
+    // Descargar Archivo FTP
+    ftpDownloadBtn.addEventListener('click', async () => {
+        const credentials = getFtpCredentials();
+        if (!credentials) return;
+
+        const filename = ftpDownloadFilenameInput.value;
+        if (!filename) {
+            alert('Por favor, ingresa el nombre del archivo a descargar.');
+            return;
+        }
 
         try {
-            // Realizar una solicitud GET al endpoint /api/syslog/logs
-            // El servidor ahora devuelve un objeto JSON con la propiedad 'logs'
+            // Mostrar un mensaje de carga
+            alert(`Iniciando descarga de "${filename}"...`);
+
+            const response = await fetch('/api/ftp/download', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...credentials, filename })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Error desconocido al descargar el archivo.');
+            }
+
+            // Si la respuesta es OK, el navegador debería iniciar la descarga
+            // Crear un blob del archivo y un enlace para descargarlo
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename; // Nombre del archivo para guardar
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url); // Limpiar URL del objeto
+            alert(`Archivo "${filename}" descargado exitosamente.`);
+
+        } catch (error) {
+            alert(`Error al descargar archivo: ${error.message}`);
+            console.error('Error en la operación FTP (descargar):', error);
+        }
+    });
+
+    // Subir Archivo FTP
+    ftpUploadBtn.addEventListener('click', async () => {
+        const credentials = getFtpCredentials();
+        if (!credentials) return;
+
+        const file = ftpUploadFileInput.files[0];
+        if (!file) {
+            alert('Por favor, selecciona un archivo para subir.');
+            return;
+        }
+
+        // Crear un objeto FormData para enviar el archivo
+        const formData = new FormData();
+        formData.append('host', credentials.host);
+        formData.append('user', credentials.user);
+        formData.append('password', credentials.password);
+        formData.append('fileToUpload', file); // 'fileToUpload' debe coincidir con el nombre en Multer en server.js
+
+        try {
+            alert(`Subiendo archivo "${file.name}"...`);
+
+            const response = await fetch('/api/ftp/upload', {
+                method: 'POST',
+                body: formData // FormData se encarga de establecer el Content-Type correcto
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Error desconocido al subir el archivo.');
+            }
+
+            const result = await response.json();
+            alert(result.message);
+            // Opcional: Actualizar la lista de archivos después de subir
+            ftpListBtn.click();
+
+        } catch (error) {
+            alert(`Error al subir archivo: ${error.message}`);
+            console.error('Error en la operación FTP (subir):', error);
+        }
+    });
+
+
+    // ====================================================================
+    // Funcionalidad para Syslog
+    // ====================================================================
+
+    // Crear Log
+    syslogCreateBtn.addEventListener('click', async () => {
+        const message = syslogMessageInput.value;
+        if (!message) {
+            alert('Por favor, ingresa un mensaje para el log.');
+            return;
+        }
+
+        syslogContent.textContent = 'Creando log...';
+
+        try {
+            const response = await fetch('/api/syslog/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Error desconocido al crear el log.');
+            }
+
+            const result = await response.json();
+            alert(result.message);
+            syslogMessageInput.value = ''; // Limpiar el input
+            syslogViewBtn.click(); // Actualizar la vista de logs
+        } catch (error) {
+            syslogContent.textContent = `Error al crear log: ${error.message}`;
+            console.error('Error en la operación Syslog (crear):', error);
+        }
+    });
+
+    // Ver Logs (anteriormente Actualizar Logs)
+    syslogViewBtn.addEventListener('click', async () => {
+        syslogContent.textContent = 'Cargando logs de Syslog...';
+
+        try {
             const response = await fetch('/api/syslog/logs');
 
-            // Verificar si la respuesta fue exitosa
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.error || 'No se pudieron cargar los logs.');
             }
 
-            // Parsear la respuesta JSON
             const result = await response.json();
-            const logs = result.logs; // El servidor devuelve un objeto con la propiedad 'logs'
+            const logs = result.logs;
 
-            // Unir las líneas de log con saltos de línea para mostrarlas
             syslogContent.textContent = logs.join('\n') || 'El archivo de log está vacío o no se encontraron logs.';
         } catch (error) {
-            // Mostrar cualquier error que ocurra
             syslogContent.textContent = `Error: ${error.message}`;
-            console.error('Error al cargar logs de Syslog (frontend):', error);
+            console.error('Error al cargar logs de Syslog (ver):', error);
         }
     });
+
 
     // ====================================================================
     // Funcionalidad para Ejecutar Ping
     // ====================================================================
     pingBtn.addEventListener('click', async () => {
-        const target = pingHostInput.value; // Obtener el objetivo del ping del campo de entrada
+        const target = pingHostInput.value;
 
-        // Validar que se ingresó un objetivo
         if (!target) {
             pingOutput.textContent = 'Por favor, ingresa un host o IP válido para el ping.';
             return;
         }
-        pingOutput.textContent = `Haciendo ping a ${target}...`; // Mensaje de carga
+        pingOutput.textContent = `Haciendo ping a ${target}...`;
 
         try {
-            // Realizar una solicitud POST al endpoint /api/ping
-            // Se envía el objetivo (target) en el cuerpo de la solicitud JSON
             const response = await fetch('/api/ping', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ target: target }) // El servidor espera 'target', no 'host'
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ target: target })
             });
 
-            // Verificar si la respuesta fue exitosa
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.error || 'Error desconocido al ejecutar ping.');
             }
 
-            // Parsear la respuesta JSON
             const result = await response.json();
-            // El servidor devuelve un objeto con la propiedad 'output'
             pingOutput.textContent = result.output;
         } catch (error) {
-            // Mostrar cualquier error que ocurra
             pingOutput.textContent = `Error al ejecutar ping: ${error.message}`;
             console.error('Error en la operación de ping (frontend):', error);
         }

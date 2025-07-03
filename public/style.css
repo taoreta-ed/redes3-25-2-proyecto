@@ -1,185 +1,268 @@
+/* Variables de color de la nueva paleta */
+:root {
+    --color-darkest: #14092b;
+    --color-dark-purple: #42306a;
+    --color-medium-purple: #9c75a2;
+    --color-light-blue: #6fa6d4;
+    --color-lightest: #fdfdfd;
+}
+
 /* Estilos generales del cuerpo de la página */
 body {
-    font-family: 'Inter', sans-serif; /* Usando Inter para una tipografía más moderna */
-    background-color: #e2e8f0; /* Un gris azulado claro para el fondo */
-    color: #2d3748; /* Color de texto oscuro para buena legibilidad */
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-lightest); /* Fondo muy claro */
+    color: var(--color-darkest); /* Texto oscuro para contraste */
     margin: 0;
     padding: 0;
     line-height: 1.6;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Asegura que el footer se pegue al fondo */
+    min-height: 100vh;
 }
 
 /* Estilos para el encabezado y pie de página */
 header, footer {
-    background-color: #800000; /* Guinda IPN más oscuro */
-    color: white;
+    background-color: var(--color-dark-purple); /* Púrpura oscuro */
+    color: var(--color-lightest);
     text-align: center;
-    padding: 1.5rem 1rem; /* Más padding */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-    border-radius: 0 0 8px 8px; /* Bordes redondeados solo abajo */
+    padding: 1.5rem 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+    border-radius: 0 0 15px 15px; /* Bordes redondeados solo abajo */
+    position: relative; /* Para posicionar la imagen de portada */
+    overflow: hidden; /* Asegura que la imagen no se desborde */
+}
+
+/* Estilos para la imagen de portada */
+.cover-image {
+    width: 100%;
+    height: 200px; /* Altura fija para la imagen */
+    object-fit: cover; /* Cubre el área manteniendo el aspecto */
+    filter: brightness(0.6); /* Oscurece la imagen para que el texto se vea mejor */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0; /* Detrás del contenido del header */
+}
+
+header .header-content {
+    position: relative;
+    z-index: 1; /* Asegura que el contenido del header esté sobre la imagen */
+    padding-top: 1rem; /* Espacio para que el texto no se pegue a la imagen */
 }
 
 header h1 {
     margin-bottom: 0.5rem;
-    font-size: 2.5rem; /* Título más grande */
-    letter-spacing: 1px;
+    font-size: 2.8rem; /* Título más grande */
+    letter-spacing: 1.5px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra para el texto */
 }
 
 header p {
-    font-size: 1.1rem;
-    opacity: 0.9; /* Ligeramente transparente */
+    font-size: 1.2rem;
+    opacity: 0.9;
 }
 
 /* Contenedor principal del contenido */
 main {
-    max-width: 1000px; /* Ancho máximo un poco más grande */
-    margin: 2.5rem auto; /* Más margen superior/inferior */
+    max-width: 1100px; /* Ancho máximo un poco más grande */
+    margin: 2.5rem auto;
     padding: 1.5rem;
-    flex-grow: 1; /* Permite que el main ocupe el espacio disponible */
-    width: 90%; /* Ancho fluido para responsividad */
+    flex-grow: 1;
+    width: 90%;
 }
 
 /* Estilos para cada sección de servicios */
 section {
-    background: #ffffff; /* Fondo blanco para las secciones */
-    border: 1px solid #cbd5e0; /* Borde más suave */
-    border-radius: 12px; /* Bordes más redondeados */
-    padding: 2rem; /* Más padding interno */
-    margin-bottom: 2.5rem; /* Más espacio entre secciones */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
-    transition: transform 0.2s ease-in-out; /* Transición al pasar el ratón */
+    background: var(--color-lightest); /* Fondo muy claro para las secciones */
+    border: 1px solid var(--color-light-blue); /* Borde azul claro */
+    border-radius: 15px; /* Bordes más redondeados */
+    padding: 2.5rem; /* Más padding interno */
+    margin-bottom: 2.5rem;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 section:hover {
-    transform: translateY(-5px); /* Efecto de elevación al pasar el ratón */
+    transform: translateY(-8px); /* Efecto de elevación más pronunciado */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Estilos para los títulos de sección */
 h2 {
-    color: #800000; /* Color guinda para los títulos */
-    border-bottom: 3px solid #a00000; /* Borde inferior más grueso */
-    padding-bottom: 0.75rem; /* Más padding inferior */
-    margin-bottom: 1.5rem; /* Más espacio debajo del título */
-    font-size: 1.8rem;
+    color: var(--color-dark-purple); /* Púrpura oscuro para los títulos */
+    border-bottom: 4px solid var(--color-medium-purple); /* Borde inferior púrpura medio */
+    padding-bottom: 0.75rem;
+    margin-bottom: 2rem; /* Más espacio debajo del título */
+    font-size: 2rem;
     font-weight: 700;
+    text-align: center;
 }
 
 /* Estilos para los botones */
 button {
-    background-color: #005a9c; /* Azul IPN */
-    color: white;
+    background-color: var(--color-medium-purple); /* Púrpura medio */
+    color: var(--color-lightest);
     border: none;
-    padding: 12px 25px; /* Más padding para botones */
-    border-radius: 8px; /* Bordes más redondeados */
+    padding: 14px 30px; /* Más padding para botones */
+    border-radius: 10px; /* Bordes más redondeados */
     cursor: pointer;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-weight: 600;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Sombra para botones */
-    margin-top: 1rem; /* Espacio superior para botones */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25); /* Sombra para botones */
+    margin-top: 1.2rem; /* Espacio superior para botones */
+    margin-right: 1rem; /* Espacio entre botones */
 }
 
 button:hover {
-    background-color: #004170; /* Azul más oscuro al pasar el ratón */
-    transform: translateY(-2px); /* Efecto de elevación */
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    background-color: var(--color-dark-purple); /* Púrpura oscuro al pasar el ratón */
+    transform: translateY(-3px); /* Efecto de elevación */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 button:active {
-    transform: translateY(0); /* Efecto de "presión" */
+    transform: translateY(0);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Estilos para el área de pre-formato (logs, ping output) */
 pre {
-    background-color: #2d3748; /* Fondo oscuro para el código/logs */
-    color: #f7fafc; /* Texto claro */
-    padding: 1.5rem; /* Más padding */
-    border-radius: 8px; /* Bordes redondeados */
-    white-space: pre-wrap; /* Permite que el texto se ajuste */
-    word-wrap: break-word; /* Rompe palabras largas */
-    font-family: 'Fira Code', 'Courier New', Courier, monospace; /* Fuente monoespaciada */
-    font-size: 0.95rem;
-    overflow-x: auto; /* Permite desplazamiento horizontal si el contenido es muy largo */
-    margin-top: 1.5rem;
+    background-color: var(--color-darkest); /* Fondo más oscuro */
+    color: var(--color-lightest); /* Texto muy claro */
+    padding: 1.8rem;
+    border-radius: 10px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Fira Code', 'Courier New', Courier, monospace;
+    font-size: 0.98rem;
+    overflow-x: auto;
+    margin-top: 2rem;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3); /* Sombra interna para efecto de profundidad */
 }
 
 /* Estilos para los campos de entrada de texto y contraseña */
 input[type="text"],
-input[type="password"] {
-    width: calc(100% - 22px); /* Ancho completo menos padding y borde */
-    padding: 10px;
-    border: 1px solid #a0aec0; /* Borde más suave */
-    border-radius: 8px; /* Bordes redondeados */
-    margin-bottom: 1rem; /* Espacio debajo de cada input */
-    font-size: 1rem;
-    box-sizing: border-box; /* Incluye padding y borde en el ancho */
+input[type="password"],
+input[type="file"],
+select {
+    width: calc(100% - 24px); /* Ancho completo menos padding y borde */
+    padding: 12px;
+    border: 2px solid var(--color-light-blue); /* Borde azul claro */
+    border-radius: 10px; /* Bordes más redondeados */
+    margin-bottom: 1.2rem; /* Espacio debajo de cada input */
+    font-size: 1.05rem;
+    box-sizing: border-box;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--color-lightest);
+    color: var(--color-darkest);
 }
 
 input[type="text"]:focus,
-input[type="password"]:focus {
-    border-color: #005a9c; /* Borde azul al enfocar */
-    box-shadow: 0 0 0 3px rgba(0, 90, 156, 0.2); /* Sombra de enfoque */
-    outline: none; /* Eliminar el contorno por defecto */
+input[type="password"]:focus,
+input[type="file"]:focus,
+select:focus {
+    border-color: var(--color-medium-purple); /* Borde púrpura medio al enfocar */
+    box-shadow: 0 0 0 4px rgba(156, 117, 162, 0.4); /* Sombra de enfoque púrpura */
+    outline: none;
 }
 
 /* Estilos para grupos de entrada (label + input) */
 .input-group {
-    margin-bottom: 1rem; /* Espacio entre grupos de entrada */
+    margin-bottom: 1.5rem; /* Más espacio entre grupos de entrada */
 }
 
 .input-group label {
-    display: block; /* La etiqueta ocupa su propia línea */
-    margin-bottom: 0.5rem; /* Espacio entre etiqueta y input */
-    font-weight: 600;
-    color: #4a5568;
+    display: block;
+    margin-bottom: 0.6rem;
+    font-weight: 700;
+    color: var(--color-dark-purple); /* Púrpura oscuro para etiquetas */
 }
 
 /* Estilos para la lista de archivos FTP */
 #ftp-file-list {
     list-style-type: none;
     padding-left: 0;
-    margin-top: 1.5rem;
-    background-color: #f7fafc; /* Fondo claro para la lista */
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 1rem;
+    margin-top: 2rem;
+    background-color: var(--color-lightest);
+    border: 1px solid var(--color-light-blue);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1); /* Sombra interna sutil */
 }
 
 #ftp-file-list li {
-    padding: 0.5rem 0;
-    border-bottom: 1px dashed #edf2f7; /* Borde punteado entre elementos */
-    color: #4a5568;
+    padding: 0.7rem 0;
+    border-bottom: 1px dashed var(--color-light-blue); /* Borde punteado azul claro */
+    color: var(--color-dark-purple);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #ftp-file-list li:last-child {
-    border-bottom: none; /* No hay borde en el último elemento */
+    border-bottom: none;
+}
+
+#ftp-file-list li button {
+    margin: 0;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    box-shadow: none;
+}
+
+#ftp-file-list li button:hover {
+    transform: none;
+    box-shadow: none;
 }
 
 /* Estilos para el control de ping (input y botón en la misma línea) */
 .ping-control {
-    display: flex; /* Usa flexbox para alinear elementos */
-    align-items: center; /* Alinea verticalmente */
-    gap: 10px; /* Espacio entre elementos */
-    flex-wrap: wrap; /* Permite que los elementos salten de línea en pantallas pequeñas */
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Más espacio entre elementos */
+    flex-wrap: wrap;
 }
 
 .ping-control input {
-    flex-grow: 1; /* Permite que el input ocupe el espacio disponible */
-    margin-bottom: 0; /* Elimina el margen inferior si está en flex */
+    flex-grow: 1;
+    margin-bottom: 0;
 }
 
 .ping-control button {
-    margin-top: 0; /* Elimina el margen superior si está en flex */
+    margin-top: 0;
 }
 
-/* Responsividad básica */
+/* Contenedor para botones múltiples */
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.button-group button {
+    margin-top: 0;
+    margin-right: 0; /* Eliminar margen derecho si ya hay gap */
+}
+
+/* Responsividad */
 @media (max-width: 768px) {
+    header {
+        padding: 1rem;
+        border-radius: 0 0 8px 8px;
+    }
+
     header h1 {
         font-size: 2rem;
+    }
+
+    header p {
+        font-size: 1rem;
+    }
+
+    .cover-image {
+        height: 150px; /* Menor altura en móviles */
     }
 
     main {
@@ -191,25 +274,54 @@ input[type="password"]:focus {
     section {
         padding: 1.5rem;
         margin-bottom: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     h2 {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
     }
 
     button {
         padding: 10px 20px;
         font-size: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     }
 
     input[type="text"],
-    input[type="password"] {
-        width: 100%; /* Ocupa todo el ancho en móviles */
-        margin-right: 0;
+    input[type="password"],
+    input[type="file"],
+    select {
+        width: 100%;
+        padding: 10px;
+        font-size: 0.95rem;
+        border-radius: 8px;
     }
 
-    .ping-control {
-        flex-direction: column; /* Apila los elementos en pantallas pequeñas */
-        align-items: stretch; /* Estira los elementos para que ocupen todo el ancho */
+    .input-group {
+        margin-bottom: 1rem;
+    }
+
+    .input-group label {
+        font-size: 0.9rem;
+    }
+
+    pre {
+        padding: 1rem;
+        font-size: 0.85rem;
+        margin-top: 1rem;
+    }
+
+    .ping-control, .button-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.8rem;
+    }
+
+    .ping-control button, .button-group button {
+        width: 100%; /* Botones ocupan todo el ancho */
+        margin-right: 0;
     }
 }

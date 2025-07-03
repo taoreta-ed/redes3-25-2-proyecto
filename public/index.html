@@ -8,35 +8,74 @@
 </head>
 <body>
     <header>
-        <div class="logos">
+        <!-- Imagen de portada, asegúrate de que el archivo exista en public/ -->
+        <img src="portada.jpg" alt="Portada de la red ESCOM" class="cover-image" onerror="this.onerror=null;this.src='https://placehold.co/1200x200/42306a/fdfdfd?text=Portada+del+Proyecto';">
+        <div class="header-content">
+            <div class="logos">
+                <!-- Puedes añadir aquí los logos si los tienes, por ejemplo: -->
+                <!-- <img src="logo-ipn.png" alt="Logo IPN" class="logo"> -->
+                <!-- <img src="logo-escom.png" alt="Logo ESCOM" class="logo"> -->
             </div>
-        <h1>Proyecto Final: Administración de Servicios en Red</h1>
-        <p>Hernández Castro Eduardo y Parra Mancilla José Ramón - 7CV1</p>
+            <h1>Proyecto Final: Administración de Servicios en Red</h1>
+            <p>Hernández Castro Eduardo y Parra Mancilla José Ramón - 7CV1</p>
+        </div>
     </header>
 
     <main>
         <section id="ftp-section">
             <h2>Servicio FTP</h2>
-            <!-- Nuevos campos de entrada para el host, usuario y contraseña FTP -->
             <div class="input-group">
                 <label for="ftp-host-input">Host FTP:</label>
                 <input type="text" id="ftp-host-input" value="192.168.1.10" placeholder="Ej: 192.168.1.10">
             </div>
             <div class="input-group">
                 <label for="ftp-user-input">Usuario FTP:</label>
-                <input type="text" id="ftp-user-input" value="your_ftp_user" placeholder="Ej: ftpuser">
+                <input type="text" id="ftp-user-input" value="ftpuser" placeholder="Ej: ftpuser">
             </div>
             <div class="input-group">
                 <label for="ftp-password-input">Contraseña FTP:</label>
-                <input type="password" id="ftp-password-input" value="your_ftp_password" placeholder="Ej: tucontraseña">
+                <input type="password" id="ftp-password-input" value="April" placeholder="Ej: tucontraseña">
             </div>
-            <button id="ftp-btn">Actualizar Lista de Archivos</button>
+            <div class="button-group">
+                <button id="ftp-list-btn">Ver Archivos</button>
+            </div>
+
+            <h3>Descargar Archivo</h3>
+            <div class="input-group">
+                <label for="ftp-download-filename">Nombre del archivo a descargar:</label>
+                <input type="text" id="ftp-download-filename" placeholder="Ej: mi_documento.pdf">
+            </div>
+            <div class="button-group">
+                <button id="ftp-download-btn">Descargar Archivo</button>
+            </div>
+
+            <h3>Subir Archivo</h3>
+            <div class="input-group">
+                <label for="ftp-upload-file">Seleccionar archivo para subir:</label>
+                <input type="file" id="ftp-upload-file">
+            </div>
+            <div class="button-group">
+                <button id="ftp-upload-btn">Subir Archivo</button>
+            </div>
+            
             <ul id="ftp-file-list"></ul>
         </section>
 
         <section id="syslog-section">
             <h2>Visor de Syslog</h2>
-            <button id="syslog-btn">Actualizar Logs</button>
+            <h3>Crear Nuevo Log</h3>
+            <div class="input-group">
+                <label for="syslog-message-input">Mensaje de Log:</label>
+                <input type="text" id="syslog-message-input" placeholder="Escribe tu mensaje aquí...">
+            </div>
+            <div class="button-group">
+                <button id="syslog-create-btn">Crear Log</button>
+            </div>
+
+            <h3>Ver Logs Existentes</h3>
+            <div class="button-group">
+                <button id="syslog-view-btn">Ver Logs</button>
+            </div>
             <pre id="syslog-content">Aquí se mostrarán los logs de la red...</pre>
         </section>
 
