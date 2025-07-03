@@ -7,7 +7,7 @@ const ftp = require('basic-ftp'); // Módulo para interactuar con FTP
 
 // Crear la aplicación Express
 const app = express();
-const PORT = 80; // El puerto HTTP estándar
+const PORT = 8000; // El puerto HTTP estándar
 
 // --- Middleware ---
 // Servir los archivos estáticos (HTML, CSS, JS del cliente) de la carpeta 'public'
